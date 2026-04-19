@@ -13,14 +13,12 @@ class GlobalPlanRequest:
     Input schema for global plan generation.
 
     - user_command: natural language instruction from the user
-    - robot_positions: current zone for each robot
     - cube_positions: current zone for each cube
     - goal_positions: desired goal zone for each cube
     이 부분은 좀 수정이 필요할 수도 있음. 아예 명령 안에 목적지 및 큐브 정보가 포함될 수도 있기 때문. 일단은 명확하게 구분해서 넣어보는 식으로 접근해봄.
     """
 
     user_command: str = ""
-    robot_positions: dict[int, int] = field(default_factory=dict)
     cube_positions: dict[str, int] = field(default_factory=dict)
     goal_positions: dict[str, int] = field(default_factory=dict)
 
