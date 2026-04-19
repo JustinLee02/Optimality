@@ -17,17 +17,6 @@ def main() -> None:
 
     request = GlobalPlanRequest(
         user_command="배치된 큐브들을 goal 위치로 옮겨줘",
-        robot_positions={
-            1: 1,
-            2: 2,
-            3: 3,
-            4: 5,
-            5: 6,
-            6: 7,
-            7: 9,
-            8: 10,
-            9: 11,
-        },
         cube_positions={
             "C1": 1,
             "C2": 3,

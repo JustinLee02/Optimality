@@ -10,10 +10,9 @@ def _format_robot_state(request: GlobalPlanRequest) -> str:
     '''
     lines = []
     for robot_id in range(1, TOTAL_ROBOTS + 1):
-        current_zone = request.robot_positions.get(robot_id, "unknown")
         reachable_zones = ADJACENT_ZONES.get(robot_id, [])
         lines.append(
-            f"R{robot_id}: current_zone={current_zone}, reachable_zones={reachable_zones}"
+            f"R{robot_id}: reachable_zones={reachable_zones}"
         )
     return "\n".join(lines)
 
@@ -58,7 +57,6 @@ def build_global_plan_prompt(request: GlobalPlanRequest) -> str:
         - 규칙 : cube 중복 할당 금지, reachability 위반 금지
         - 출력 형식 : JSON only
     '''
-    robot_state = _format_robot_state(request)
     cube_state = _format_cube_state(request)
     output_schema = _output_schema_text()
 
@@ -77,9 +75,6 @@ Generate a robot-wise global plan for moving all cubes to their goal zones.
 1. The same cube must not be assigned to multiple robots.
 2. A robot must only be assigned tasks in zones it can reach.
 3. The plan should avoid conflicting assignments across robots.
-
-## Robot State
-{robot_state}
 
 ## Cube State
 {cube_state}
