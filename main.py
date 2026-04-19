@@ -5,6 +5,7 @@ Entry point placeholder for the shared global plan generator project.
 from __future__ import annotations
 from models import GlobalPlanRequest
 from prompt_template import build_global_plan_prompt
+from generator import GlobalPlanGenerator
 
 from config import LLM_MODEL, PROJECT_NAME, TOTAL_ROBOTS, TOTAL_ZONES
 
@@ -28,7 +29,10 @@ def main() -> None:
     )
 
     prompt = build_global_plan_prompt(request)
-    print(prompt)
+    
+    generator = GlobalPlanGenerator()
+    raw_output = generator.generate_raw(prompt)
+    print(raw_output)
 
 
 if __name__ == "__main__":
