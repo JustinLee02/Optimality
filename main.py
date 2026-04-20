@@ -6,6 +6,7 @@ from __future__ import annotations
 from models import GlobalPlanRequest
 from prompt_template import build_global_plan_prompt
 from generator import GlobalPlanGenerator
+from parser import parse_global_plan_raw_text
 
 from config import LLM_MODEL, PROJECT_NAME, TOTAL_ROBOTS, TOTAL_ZONES
 
@@ -16,23 +17,39 @@ def main() -> None:
     print(f"robots: {TOTAL_ROBOTS}")
     print(f"zones: {TOTAL_ZONES}")
 
-    request = GlobalPlanRequest(
-        user_command="배치된 큐브들을 goal 위치로 옮겨줘",
-        cube_positions={
-            "C1": 1,
-            "C2": 3,
+    raw_text = """
+    {
+      "robot_plans": [
+        {
+          "robot_id": 1,
+          "tasks": [
+            {
+              "cube_id": "C1",
+              "from_zone": 1,
+              "to_zone": 2
+            }
+          ]
         },
-        goal_positions={
-            "C1": 2,
-            "C2": 4,
-        },
-    )
+        {
+          "robot_id": 3,
+          "tasks": [
+            {
+              "cube_id": "C2",
+              "from_zone": 3,
+              "to_zone": 4
+            }
+          ]
+        }
+      ],
+      "reasoning": "test output"
+    }
+    """
 
-    prompt = build_global_plan_prompt(request)
-    
-    generator = GlobalPlanGenerator()
-    raw_output = generator.generate_raw(prompt)
-    print(raw_output)
+    parsed = parse_global_plan_raw_text(raw_text)
+
+    print(parsed)
+    print(parsed.to_dict())
+
 
 
 if __name__ == "__main__":
